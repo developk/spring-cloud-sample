@@ -64,7 +64,7 @@ springdoc openapi 작업이 완료되었습니다. gateway 서버 실행 주소/
 
 
 ## 게이트웨이 (Spring Eureka)
-![gateway 접속 화면](D:\Dev\IDEA_WORK\std-16-cld-app\etc\gateway.png)
+![gateway 접속 화면](etc/gateway.png)
 
 ## actuator
 모듈 core를 제외한 모든 어플리케이션은 actuator 의존성을 갖습니다.
@@ -73,7 +73,7 @@ actuator를 사용하면 현재 어플리케이션의 다양한 정보를 모니
 
 [참고링크](https://www.popit.kr/spring-actuator-%EA%B8%B0%EC%B4%88-%EC%84%A4%EC%A0%95-intellij-%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0/)
 
-![/actuator 요청 시 응답 화면](D:\Dev\IDEA_WORK\std-16-cld-app\etc\actuator.png)
+![/actuator 요청 시 응답 화면](etc/actuator.png)
 
 ## 추가 적용 필요 및 검토 사항.
 

@@ -13,7 +13,7 @@ client 측에서 요청 시 http://{gateway-host}:{gateway-port}/api/{microservi
 
 ## 2021-08-24
 - springdoc-openapi가 적용되었습니다. local 프로파일로 실행 기준 http:/localhost:9002/swagger-ui.html을 확인하세요.
-![openapi 명세 페이지 접속 예시](etc/swagger-ui.png "swagger-ui.html")
+![openapi 명세 페이지 접속 예시](../etc/swagger-ui.png "swagger-ui.html")
 Authorization 버튼클 클릭하면 로그인 계정 및 Oauth Client 정보를 입력하여 인증토큰을 가져온 후 API를 테스트 할 수 있습니다.
 
 - MapStruct 라이브러리를 적용하여, Entity <-> Form, DTO 변환 작업을 간단히 적용할 수 있도록 하였습니다.

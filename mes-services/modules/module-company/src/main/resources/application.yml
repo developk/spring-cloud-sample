@@ -1,0 +1,94 @@
+# default profiles
+spring:
+
+  application:
+    name: company-service
+    title: Company Service
+    version: 0.0.1-SNAPSHOT
+
+  secret:
+    user:
+      name: gndbiz
+      password: gndbiz1101!
+      roles: ADMIN
+
+  config:
+    import: "optional:configserver:"
+
+  cloud:
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
+      env:
+        enabled: true
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      name: commons, company-service
+      fail-fast: true
+      username: ${spring.secret.user.name}
+      password: ${spring.secret.user.password}
+      retry:
+        max-attempts: 20
+        max-interval: 15000
+        initial-interval: 10000
+
+info:
+  app:
+    name: ${spring.application.title}
+    description: GNDBIZ STD v1.6(MES) micro service for Company
+    version: ${spring.application.version}
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${random.uuid}
+    appname: ${spring.application.name}
+    lease-renewal-interval-in-seconds: 25
+    lease-expiration-duration-in-seconds: 10
+  client:
+    enabled: true
+    region: ap-northeast-2
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${spring.secret.user.name}:${spring.secret.user.password}@localhost:9000/eureka
+    registry-fetch-interval-seconds: 3
+    disable-delta: true
+
+springdoc:
+  title: 'Company Microservice API Documents.'
+  description: '회사 API 문서 입니다.'
+  packages-to-scan: com.gndbiz.modules.company
+
+management:
+  endpoint:
+    restart:
+      enabled: true
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - gateway
+          - beans
+          - configprops
+          - env
+          - loggers
+          - threaddump
+          - heapdump
+          - metrics
+          - httptrace
+          - mappings
+          - shutdown
+          - restart
+
+server:
+  port: 8083
+  shutdown: graceful

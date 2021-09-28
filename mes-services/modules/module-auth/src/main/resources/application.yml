@@ -1,0 +1,111 @@
+# default profiles
+spring:
+  application:
+    name: auth-server
+    title: Authentication Server
+    version: 0.0.1-SNAPSHOT
+
+  secret:
+    user:
+      name: gndbiz
+      password: gndbiz1101!
+      roles: ADMIN
+
+  config:
+    import: "optional:configserver:"
+
+  cloud:
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
+      env:
+        enabled: true
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      username: ${spring.secret.user.name}
+      password: ${spring.secret.user.password}
+      name: commons, auth-service
+      fail-fast: true
+      retry:
+        max-attempts: 20
+        max-interval: 15000
+        initial-interval: 10000
+
+info:
+  app:
+    name: ${spring.application.title}
+    description: GNDBIZ STD v1.6(MES) micro service for Auth
+    version: ${spring.application.version}
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${random.uuid}
+    appname: ${spring.application.name}
+    lease-renewal-interval-in-seconds: 25
+    lease-expiration-duration-in-seconds: 10
+  client:
+    enabled: true
+    region: ap-northeast-2
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${spring.secret.user.name}:${spring.secret.user.password}@localhost:9000/eureka
+    registry-fetch-interval-seconds: 3
+    disable-delta: true
+
+springdoc:
+  title: 'Auth Service'
+  description: 'oauth2 인증 서버 API 문서 입니다.'
+  packages-to-scan:
+    - com.gndbiz.modules.auth
+    - org.springframework.security.oauth2
+  api-docs:
+    path: /oauth/v3/api-docs
+
+management:
+  endpoint:
+    restart:
+      enabled: true
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - gateway
+          - beans
+          - configprops
+          - env
+          - loggers
+          - threaddump
+          - heapdump
+          - metrics
+          - httptrace
+          - mappings
+          - shutdown
+          - restart
+
+server:
+  port: 8081
+  shutdown: graceful
+
+---
+# local profiles
+spring:
+
+  config:
+    activate:
+      on-profile: local
+
+  sql:
+    init:
+#      시작 시 oauth 관련 스키마 생성 스크립트 필요시 주석 해재후 사용.
+#      schema-locations: classpath:schema.sql
+#      mode: always

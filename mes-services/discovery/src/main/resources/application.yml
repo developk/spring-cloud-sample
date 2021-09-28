@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: discovery-server
+  security:
+    user:
+      name: gndbiz
+      password: gndbiz1101!
+      roles: ADMIN
+
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${random.uuid}
+    appname: ${spring.application.name}
+  server:
+    response-cache-update-interval-ms: 3000
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    region: ap-northeast-2
+
+
+management:
+
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always
+    restart:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - gateway
+          - beans
+          - configprops
+          - env
+          - loggers
+          - threaddump
+          - heapdump
+          - metrics
+          - httptrace
+          - mappings
+          - shutdown
+          - restart
+
+server:
+  port: 9000
+  shutdown: graceful
+
+logging:
+  level:
+    root: error

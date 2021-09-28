@@ -1,0 +1,13 @@
+###
+
+POST http://localhost:8888/monitor
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="path"
+
+*
+
+
+###
+

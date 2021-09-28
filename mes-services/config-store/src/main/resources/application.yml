@@ -1,0 +1,103 @@
+spring:
+  application:
+    name: config-server
+
+  security:
+    user:
+      name: gndbiz
+      password: gndbiz1101!
+      roles: ADMIN
+
+  profiles:
+    active: native
+
+  rabbitmq:
+    host: 192.168.0.79
+    port: 5672
+    username: config-broker
+    password: gndbiz1234
+
+  cloud:
+    bus:
+      enabled: true
+      id: ${spring.application.name}:${spring.profiles.active}:${random.uuid}
+    config:
+      server:
+        git:
+          uri: http://192.168.0.23/gndbiz/std16-config.git
+          username: config-editor
+          password: RG-BMTDXn9s91K3oS2yX
+          clone-submodules: true
+          clone-on-start: true
+        native:
+          search-locations: classpath:/configs/
+      override-system-properties: false
+
+encrypt:
+  key: 'gndbiz!@'
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${random.uuid}
+    appname: ${spring.application.name}
+    lease-renewal-interval-in-seconds: 25
+    lease-expiration-duration-in-seconds: 10
+  client:
+    region: ap-northeast-2
+    enabled: true
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:9000/eureka
+    registry-fetch-interval-seconds: 3
+    disable-delta: true
+
+management:
+  info:
+    build:
+      enabled: true
+    git:
+      enabled: true
+      mode: full
+
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always
+    restart:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - gateway
+          - beans
+          - configprops
+          - env
+          - loggers
+          - threaddump
+          - heapdump
+          - metrics
+          - httptrace
+          - mappings
+          - shutdown
+          - restart
+
+info:
+  app:
+    name: GNDBIZ STD v1.6(MES) Configstore Application
+    description: "이 어플리케이션은 Spring Cloud Config Server Application 입니다."
+    version: 0.0.1-SNAPSHOT
+
+logging:
+  level:
+    root: error
+
+server:
+  port: 8888
+  shutdown: graceful
+

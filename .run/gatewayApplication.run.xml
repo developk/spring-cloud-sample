@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="gatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="mes-services.gateway.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.gndbiz.gateway.GatewayApplication" />
+    <option name="ACTIVE_PROFILES" value="local" />
+    <option name="VM_PARAMETERS" value="-Djava.net.preferIPv4Stack=true" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

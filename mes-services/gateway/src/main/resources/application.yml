@@ -1,0 +1,193 @@
+
+spring:
+
+  application:
+    name: gateway-server
+
+  cloud:
+    gateway:
+      forwarded:
+        enabled: true
+      x-forwarded:
+        enabled: true
+        for-enabled: true
+        proto-append: true
+      globalcors:
+        cors-configurations:
+
+          '[/**]':
+            allowedOrigins:
+              - http://localhost:${server.port}
+              - http://localhost:3000 # mes-user-web
+              - http://localhost:3001 # mes-admin-web
+            allowedHeaders:
+              - Origin
+              - accept
+              - X-Requested-With
+              - Authorization
+              - Content-Type
+              - Access-Control-Allow-Origin
+              - Access-Control-Request-Method
+              - Access-Control-Request-Headers
+              - Cache-Control
+            allowedMethods:
+              - POST
+              - GET
+              - PUT
+              - DELETE
+              - OPTIONS
+
+          '[/v3/**]':
+            allowedOrigins: "*"
+            allowedHeaders:
+              - origin
+              - accept
+              - x-requested-with
+              - authorization
+              - content-type
+            allowedMethods:
+              - POST
+              - GET
+              - PUT
+              - DELETE
+              - OPTIONS
+
+      discovery:
+        locator:
+          enabled: true
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 10s
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway GlobalFilter
+            preLogger: true
+            postLogger: true
+      routes:
+        - id: auth-server
+          uri: lb://AUTH-SERVER
+          order: 0
+          predicates:
+            - Path=/oauth/**
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: openapi
+          uri: http://localhost:${server.port}
+          order: 0
+          predicates:
+            - Path=/v3/api-docs/auth
+          filters:
+            - RewritePath=/v3/api-docs/auth, /oauth/v3/api-docs
+        - id: openapi
+          uri: http://localhost:${server.port}
+          order: 1
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /api/$\{path}/v3/api-docs
+        - id: user-service
+          uri: lb://USER-SERVICE
+          order: 1
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - RewritePath=/api/user/(?<segment>.*), /$\{segment}
+            - RemoveRequestHeader=Cookie
+        - id: company-service
+          uri: lb://COMPANY-SERVICE
+          order: 1
+          predicates:
+            - Path=/api/company/**
+          filters:
+            - RewritePath=/api/company/(?<segment>.*), /$\{segment}
+            - RemoveRequestHeader=Cookie
+
+  security:
+    user:
+      name: gndbiz
+      password: gndbiz1101!
+      roles: ADMIN
+
+info:
+  app:
+    name: GNDBIZ STD v1.6(MES) Gateway Application
+    description: "이 어플리케이션은 MES(사용자용) Spring Cloud Gateway Application 입니다."
+    version: 0.0.1-SNAPSHOT
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${random.uuid}
+    appname: ${spring.application.name}
+    lease-renewal-interval-in-seconds: 25
+    lease-expiration-duration-in-seconds: 10
+  client:
+    region: ap-northeast-2
+    enabled: true
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:9000/eureka
+    registry-fetch-interval-seconds: 3
+    disable-delta: true
+
+management:
+
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always
+    restart:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - gateway
+          - beans
+          - configprops
+          - env
+          - loggers
+          - threaddump
+          - heapdump
+          - metrics
+          - httptrace
+          - mappings
+          - shutdown
+          - restart
+
+springdoc:
+  show-actuator: false
+  swagger-ui:
+    oauth:
+      client-id: gndbiz
+      client-secret: gndbiz1101
+    csrf:
+      enabled: false
+
+    groups-order: asc
+    display-request-duration: true
+    display-operation-id: true
+    display-query-params: true
+    operations-sorter: method
+  api-docs:
+
+    groups:
+      enabled: true
+  writer-with-order-by-keys: true
+  use-fqn: true
+  default-consumes-media-type: application/json
+  show-login-endpoint: true
+
+
+server:
+  port: 9002
+  shutdown: graceful
+
+logging:
+  level:
+    root: debug

@@ -1,0 +1,117 @@
+# default profiles
+authTokenUrl: 'http://localhost:9002/oauth/token'
+
+spring:
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+    dispatch-options-request: false
+
+  resources:
+    add-mappings: false
+
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+      hibernate.format_sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: com.gndbiz.modules.core.domain.support.PrefixStrategy
+    show-sql: true
+    generate-ddl: true
+
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-value: 'gndbiz2202'
+
+springdoc:
+  contact:
+    name: 'GNDBIZ'
+    url: 'http://www.gndbiz.com/kor/'
+    email: 'admin@gndbiz.com'
+  swagger-ui:
+    enabled: off
+
+---
+# local profiles
+
+spring:
+
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:log4jdbc:mysql://localhost:3306/std16?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    username: '{cipher}a0640e0e5448b1fd71536dc5f4d3407d65add64cda7d280e6a2ccec0f1883376'
+    password: '{cipher}25a951e9ae96eaa3b179e02baf772a6e242b72e8ceaa179c898b6b81edbaf1c4'
+
+  devtools:
+    restart:
+      enabled: true
+      poll-interval: 2s
+      quiet-period: 1s
+    livereload:
+      enabled: true
+
+  rabbitmq:
+    host: 192.168.0.79
+    port: 5672
+    username: '{cipher}fbc93c9e492f24bec1426630b6ded475797f352a7703e1a5a3816ec4938564a7'
+    password: '{cipher}5f77e2a5d057175ec871af8c4d4cc323dccb32fc7801629b0a5338a1e727ba3d'
+
+logging:
+  level:
+    root: debug
+---
+# dev profiles
+
+spring:
+
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:log4jdbc:mysql://192.168.0.2:3306/std16?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    username: '{cipher}a0640e0e5448b1fd71536dc5f4d3407d65add64cda7d280e6a2ccec0f1883376'
+    password: '{cipher}25a951e9ae96eaa3b179e02baf772a6e242b72e8ceaa179c898b6b81edbaf1c4'
+
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+
+  rabbitmq:
+    host: 192.168.0.11
+    port: 5672
+    username: '{cipher}fbc93c9e492f24bec1426630b6ded475797f352a7703e1a5a3816ec4938564a7'
+    password: '{cipher}5f77e2a5d057175ec871af8c4d4cc323dccb32fc7801629b0a5338a1e727ba3d'
+---
+# prod profiles
+
+spring:
+
+  config:
+    activate:
+      on-profile: prod
+
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+
+  rabbitmq:
+    host: 192.168.0.12
+    port: 5672
+    username: '{cipher}fbc93c9e492f24bec1426630b6ded475797f352a7703e1a5a3816ec4938564a7'
+    password: '{cipher}5f77e2a5d057175ec871af8c4d4cc323dccb32fc7801629b0a5338a1e727ba3d'
+---

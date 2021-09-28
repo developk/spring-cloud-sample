@@ -1,0 +1,10 @@
+rootProject.name = 'mes-services'
+
+include 'config-store', 'discovery', 'gateway', 'modules:module-core', 'modules:module-auth', 'modules:module-user', 'modules:module-company'
+
+for (project in rootProject.children) {
+//    println("pr nm: " + project.name);
+    if (":modules".equalsIgnoreCase(project.name)) {
+        project.projectDir = file("modules/${project.name}")
+    }
+}

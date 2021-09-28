@@ -1,0 +1,17 @@
+#intellij
+.idea/
+*.iml
+
+#eclipse
+.settings/
+
+#gradle
+build/
+out/
+.gradle/
+
+#maven
+target/
+
+#etc
+.DS_Store

@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="companyApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="modules">
+    <module name="mes-services.modules.module-company.main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.gndbiz.modules.company.CompanyApplication" />
+    <option name="ACTIVE_PROFILES" value="local" />
+    <option name="VM_PARAMETERS" value="-Djava.net.preferIPv4Stack=true" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <option name="SHORTEN_COMMAND_LINE" value="ARGS_FILE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

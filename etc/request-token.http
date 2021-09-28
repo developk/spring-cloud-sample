@@ -1,0 +1,27 @@
+###
+
+# curl --location --request POST 'http://localhost:9002/oauth/token'
+#--header 'Authorization: Basic Z25kYml6OmduZGJpejExMDE='
+#--form 'grant_type="password"'
+#--form 'username="user01"'
+#--form 'password="user01"'
+POST http://localhost:9002/oauth/token
+Authorization: Basic Z25kYml6OmduZGJpejExMDE=
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="grant_type"
+
+password
+--WebAppBoundary
+Content-Disposition: form-data; name="username"
+
+user01
+--WebAppBoundary
+Content-Disposition: form-data; name="password"
+
+user01
+--WebAppBoundary--
+
+###
+
